@@ -1,7 +1,7 @@
 /** @format */
 const path = require("path");
 const http = require("http");
-const { generateMessage } = require("./utils/message");
+const { generateMessage, generateLocationMessage } = require("./utils/message");
 
 const express = require("express");
 const socketIO = require("socket.io");
@@ -32,6 +32,18 @@ io.on("connection", (socket) => {
   socket.on("createMessage", (message, callBack) => {
     io.emit("newMessage", generateMessage(message.from, message.text));
     callBack("This is from server");
+  });
+
+  socket.on("createLocationMessage", (coords) => {
+    console.log("TCL:: coords", coords);
+    io.emit(
+      "newLocationMessage",
+      generateLocationMessage(
+        "Admin",
+        `${coords.latitude}`,
+        `${coords.longitude}`
+      )
+    );
   });
 
   socket.on("disconnect", () => {
