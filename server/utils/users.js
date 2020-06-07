@@ -24,7 +24,7 @@ class Users {
     getUser(id) {
         // return user
         var user = this.users.filter((user) => user.id === id);
-        return user;
+        return user[0];
     }
 
     getUserList(room) {
