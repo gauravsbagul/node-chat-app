@@ -23,17 +23,32 @@ function scrollToBottom() {
 }
 
 socket.on("connect", function() {
-    console.log("connected to server");
-    socket.emit("createEmail", {
-        to: "gaurav@example.com",
-        text: "Hey this is gaurav",
+    var parmas = jQuery.deparam(window.location.search);
+    socket.emit("join", parmas, function(err) {
+        if (err) {
+            window.location.href = "/";
+            alert(err);
+        } else {
+            console.log("no error");
+        }
     });
 });
 socket.on("disconnect", function() {
     console.log("Disconnected form server");
 });
 
+socket.on("updateUserList", function(users) {
+    var ol = jQuery("<ol></ol>");
+
+    users.forEach(function(user) {
+        ol.append(jQuery("<li></li>").text(user));
+    });
+
+    jQuery("#users").html(ol);
+});
+
 socket.on("newMessage", function(message) {
+    console.log("TCL:: message", message);
     var template = jQuery("#message-template").html();
 
     var html = Mustache.render(template, {
