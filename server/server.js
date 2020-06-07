@@ -25,7 +25,10 @@ io.on("connection", (socket) => {
         if (!isRealString(params.name) || !isRealString(params.room)) {
             return callBack("Name or room name are required");
         }
-
+        var isUserNameExist = users.isUserNameExist(params.name);
+        if (isUserNameExist) {
+            return callBack("User already exist! user different username");
+        }
         socket.join(params.room);
         users.removeUser(socket.id);
         users.addUser(socket.id, params.name, params.room);

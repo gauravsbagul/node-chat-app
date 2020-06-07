@@ -24,6 +24,8 @@ function scrollToBottom() {
 
 socket.on("connect", function() {
     var parmas = jQuery.deparam(window.location.search);
+
+    parmas.room = parmas.room.toLowerCase();
     socket.emit("join", parmas, function(err) {
         if (err) {
             window.location.href = "/";
@@ -48,7 +50,6 @@ socket.on("updateUserList", function(users) {
 });
 
 socket.on("newMessage", function(message) {
-    console.log("TCL:: message", message);
     var template = jQuery("#message-template").html();
 
     var html = Mustache.render(template, {
