@@ -7,8 +7,6 @@ const generateMessage = (from, text) => {
   };
 };
 const generateLocationMessage = (from, latitude, longitude) => {
-  console.log("TCL:: generateLocationMessage -> longitude", longitude);
-  console.log("TCL:: generateLocationMessage -> latitude", latitude);
   return {
     from,
     url: `https://www.google.com/maps?q=${latitude},${longitude}`,

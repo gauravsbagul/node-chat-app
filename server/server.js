@@ -18,7 +18,6 @@ app.use(express.static(publicPath));
 
 io.on("connection", (socket) => {
   console.log("New user connected");
-
   socket.emit(
     "newMessage",
     generateMessage("Admin", "Welcome to the chat app")
@@ -31,18 +30,13 @@ io.on("connection", (socket) => {
 
   socket.on("createMessage", (message, callBack) => {
     io.emit("newMessage", generateMessage(message.from, message.text));
-    callBack("This is from server");
+    callBack();
   });
 
   socket.on("createLocationMessage", (coords) => {
-    console.log("TCL:: coords", coords);
     io.emit(
       "newLocationMessage",
-      generateLocationMessage(
-        "Admin",
-        `${coords.latitude}`,
-        `${coords.longitude}`
-      )
+      generateLocationMessage("User", coords.latitude, coords.longitude)
     );
   });
 
